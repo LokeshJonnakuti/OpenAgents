@@ -6,7 +6,7 @@ import requests
 
 def call_api(input_json: Dict[str, Any]) -> Dict[str, Any]:
     url = "https://create-qr-code.modelxy.com/create-qr-code"
-    response = requests.get(url, params=input_json)
+    response = requests.get(url, params=input_json, timeout=60)
     if response.status_code == 200:
         return response.json()
     else:

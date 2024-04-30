@@ -8,7 +8,7 @@ url = "https://www.klarna.com/us/shopping/public/openai/v0/products"
 
 def call_api(input_json: Dict[str, Any]) -> Dict[str, Any]:
     headers = {"Accept": "application/json"}
-    response = requests.get(url, headers=headers, params=input_json)
+    response = requests.get(url, headers=headers, params=input_json, timeout=60)
 
     if response.status_code == 200:
         return response.json()
