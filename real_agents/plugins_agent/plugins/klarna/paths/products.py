@@ -1,14 +1,13 @@
 """Search for products by keyword, price range, and size."""
 from typing import Any, Dict
-
-import requests
+from security import safe_requests
 
 url = "https://www.klarna.com/us/shopping/public/openai/v0/products"
 
 
 def call_api(input_json: Dict[str, Any]) -> Dict[str, Any]:
     headers = {"Accept": "application/json"}
-    response = requests.get(url, headers=headers, params=input_json)
+    response = safe_requests.get(url, headers=headers, params=input_json)
 
     if response.status_code == 200:
         return response.json()

@@ -1,7 +1,6 @@
 """Search Actions"""
 from typing import Any, Dict
-
-import requests
+from security import safe_requests
 
 
 def call_api(input_json: Dict[str, Any], api_key) -> Dict[str, Any]:
@@ -9,7 +8,7 @@ def call_api(input_json: Dict[str, Any], api_key) -> Dict[str, Any]:
         "X-API-Key": api_key,
     }
     url = "https://nla.zapier.com/api/v1/search/actions/"
-    response = requests.get(url, headers=headers, params=input_json)
+    response = safe_requests.get(url, headers=headers, params=input_json)
 
     if response.status_code == 200:
         return response.json()

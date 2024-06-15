@@ -1,11 +1,11 @@
 """Dream Interpreter plugin."""
 from typing import Any, Dict
-import requests
+from security import safe_requests
 
 
 def call_api(input_json: Dict[str, Any]) -> Dict[str, Any]:
     dream_text = input_json["DreamText"]
-    response = requests.get(f"https://dreamplugin.bgnetmobile.com/getDream/{dream_text}")
+    response = safe_requests.get(f"https://dreamplugin.bgnetmobile.com/getDream/{dream_text}")
     if response.status_code == 200:
         return response.json()
     else:

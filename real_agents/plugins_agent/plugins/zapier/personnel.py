@@ -1,6 +1,6 @@
 """The Zapier plugin personnel openapi.yaml handling, since it is special case, we need to handle it separately"""
 import os
-import requests
+from security import safe_requests
 
 FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -17,7 +17,7 @@ def reload_openapi(api_key, openapi_json):
     data = None
     while True:
         try:
-            response = requests.get(url, headers=headers)
+            response = safe_requests.get(url, headers=headers)
             data = response.json()
             break
         except Exception as e:

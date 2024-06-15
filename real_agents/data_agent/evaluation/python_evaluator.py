@@ -13,6 +13,7 @@ from loguru import logger
 from IPython.core.interactiveshell import InteractiveShell
 from IPython.core.getipython import get_ipython
 from IPython.utils.capture import capture_output
+from security import safe_requests
 
 
 # subscribed channels
@@ -143,7 +144,7 @@ class PythonEvaluator:
             # If kernel id is not provided, apply for a new kernel
             kernel_info = self.jupyter_kernel_pool.get_pool_info_with_id(user_id, chat_id, None)
             cur_kid = kernel_info["kid"] if kernel_info is not None else None
-            user_exists = requests.get(f"{self.base_url}/user/status/{user_id}").json()["exists"]
+            user_exists = safe_requests.get(f"{self.base_url}/user/status/{user_id}").json()["exists"]
 
             logger.bind(user_id=user_id, chat_id=chat_id, msg_head="user exists").trace(user_exists)
 
@@ -152,7 +153,7 @@ class PythonEvaluator:
 
                 logger.bind(user_id=user_id, chat_id=chat_id, msg_head="user create").trace(response)
 
-            response = requests.get(f"{self.base_url}/kernel/list/{user_id}").json()
+            response = safe_requests.get(f"{self.base_url}/kernel/list/{user_id}").json()
             existing_kernel_list = response["list"]
 
             logger.bind(user_id=user_id, chat_id=chat_id, msg_head="kernel list").trace(response)

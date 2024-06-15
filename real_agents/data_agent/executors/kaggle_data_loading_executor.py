@@ -4,7 +4,6 @@ import re
 import shutil
 import uuid
 from typing import Any, Dict, List, Tuple
-import requests
 from bs4 import BeautifulSoup
 from loguru import logger
 from kaggle.api.kaggle_api_extended import KaggleApi
@@ -13,6 +12,7 @@ from langchain.base_language import BaseLanguageModel
 from langchain import PromptTemplate
 
 from real_agents.adapters.llm import LLMChain
+from security import safe_requests
 
 
 class KaggleDataLoadingExecutor:
@@ -125,7 +125,7 @@ Begin."
     ) -> str:
         """Crawl the kaggle dataset cover image from the dataset url."""
         # Get the HTML content of the webpage
-        response = requests.get(url)
+        response = safe_requests.get(url)
 
         # Parse the HTML with BeautifulSoup
         soup = BeautifulSoup(response.text, "html.parser")
