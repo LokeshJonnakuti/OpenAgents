@@ -9,6 +9,7 @@ from typing import Any
 
 from real_agents.adapters.data_model import SpecModel
 from langchain.embeddings.huggingface import HuggingFaceInstructEmbeddings
+import fickling
 
 DEFAULT_TOOL_INSTRUCTION = "Represent the tool description for retrieval:"
 DEFAULT_QUERY_INSTRUCTION = "Represent the question for retrieving tools that can be used to solve the question:"
@@ -181,7 +182,7 @@ class ToolSelector:
                 # Check if tool embedding is already cached
                 if os.path.isfile(tool_embedding_file):
                     with open(tool_embedding_file, "rb") as f:
-                        tool_embedding = pickle.load(f)
+                        tool_embedding = fickling.load(f)
                 # no cached embedding, compute and cache it
                 else:
                     tool_embedding = embedding.embed_documents([description])
