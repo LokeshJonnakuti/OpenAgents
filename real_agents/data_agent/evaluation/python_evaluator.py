@@ -143,32 +143,32 @@ class PythonEvaluator:
             # If kernel id is not provided, apply for a new kernel
             kernel_info = self.jupyter_kernel_pool.get_pool_info_with_id(user_id, chat_id, None)
             cur_kid = kernel_info["kid"] if kernel_info is not None else None
-            user_exists = requests.get(f"{self.base_url}/user/status/{user_id}").json()["exists"]
+            user_exists = requests.get(f"{self.base_url}/user/status/{user_id}", timeout=60).json()["exists"]
 
             logger.bind(user_id=user_id, chat_id=chat_id, msg_head="user exists").trace(user_exists)
 
             if not user_exists:
-                response = requests.post(f"{self.base_url}/user/create", json={"username": user_id}).json()
+                response = requests.post(f"{self.base_url}/user/create", json={"username": user_id}, timeout=60).json()
 
                 logger.bind(user_id=user_id, chat_id=chat_id, msg_head="user create").trace(response)
 
-            response = requests.get(f"{self.base_url}/kernel/list/{user_id}").json()
+            response = requests.get(f"{self.base_url}/kernel/list/{user_id}", timeout=60).json()
             existing_kernel_list = response["list"]
 
             logger.bind(user_id=user_id, chat_id=chat_id, msg_head="kernel list").trace(response)
 
             if cur_kid not in existing_kernel_list:
-                response = requests.post(f"{self.base_url}/kernel/create", json={"username": user_id}).json()
+                response = requests.post(f"{self.base_url}/kernel/create", json={"username": user_id}, timeout=60).json()
                 if response["code"] != 0 and response["msg"] == "Too many kernels":
                     # kill oldest kernel
                     oldest_kernel_id = existing_kernel_list[0]
                     response = requests.post(
-                        f"{self.base_url}/kernel/stop", json={"username": user_id, "kid": oldest_kernel_id}
-                    ).json()
+                        f"{self.base_url}/kernel/stop", json={"username": user_id, "kid": oldest_kernel_id}, 
+                    timeout=60).json()
 
                     logger.bind(user_id=user_id, chat_id=chat_id, msg_head="kill oldest kernel").trace(response)
 
-                    response = requests.post(f"{self.base_url}/kernel/create", json={"username": user_id}).json()
+                    response = requests.post(f"{self.base_url}/kernel/create", json={"username": user_id}, timeout=60).json()
                 cur_kid = response["id"]
 
                 logger.bind(user_id=user_id, chat_id=chat_id, msg_head="create kernel id").trace(cur_kid)
@@ -220,8 +220,8 @@ class PythonEvaluator:
             cur_kid = self._apply_for_kernel(kernel_id, user_id, chat_id)
             # Execute program
             response = requests.post(
-                f"{self.base_url}/kernel/exec", json={"username": user_id, "code": program, "kid": cur_kid}
-            ).json()
+                f"{self.base_url}/kernel/exec", json={"username": user_id, "code": program, "kid": cur_kid}, 
+            timeout=60).json()
             # Notify Redis that a job has been completed
             self.r.publish(COMPLETE_EVENT, chat_id)
 

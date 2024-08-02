@@ -8,7 +8,7 @@ url = "https://api.speak.com/v1/public/openai/translate"
 
 def call_api(input_json: Dict[str, Any]) -> Dict[str, Any]:
     headers = {"Content-Type": "application/json"}
-    response = requests.post(url, json=input_json, headers=headers)
+    response = requests.post(url, json=input_json, headers=headers, timeout=60)
 
     if response.status_code == 200:
         return response.json()

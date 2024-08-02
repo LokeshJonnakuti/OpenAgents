@@ -5,7 +5,7 @@ import requests
 
 def call_api(input_json: Dict[str, Any]) -> Dict[str, Any]:
     url = "https://openai-plugin.xweather.com/weather/summary/{}".format(input_json['location'])
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
 
     if response.status_code == 200:
         return response.json()

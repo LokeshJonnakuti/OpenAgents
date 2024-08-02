@@ -17,7 +17,7 @@ def reload_openapi(api_key, openapi_json):
     data = None
     while True:
         try:
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=headers, timeout=60)
             data = response.json()
             break
         except Exception as e:
@@ -66,7 +66,7 @@ def reload_endpoints(new_paths):
             import requests
             headers = {"X-API-Key": api_key}
             url = "https://nla.zapier.com" + new_path
-            response = requests.post(url, headers=headers, json=input_json)
+            response = requests.post(url, headers=headers, json=input_json, timeout=60)
 
             if response.status_code == 200:
                 return response.json()

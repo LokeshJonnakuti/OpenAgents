@@ -5,7 +5,7 @@ import requests
 
 def call_api(input_json: Dict[str, Any]) -> Dict[str, Any]:
     dream_text = input_json["DreamText"]
-    response = requests.get(f"https://dreamplugin.bgnetmobile.com/getDream/{dream_text}")
+    response = requests.get(f"https://dreamplugin.bgnetmobile.com/getDream/{dream_text}", timeout=60)
     if response.status_code == 200:
         return response.json()
     else:

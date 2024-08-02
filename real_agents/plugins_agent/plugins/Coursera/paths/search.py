@@ -5,7 +5,7 @@ import requests
 
 
 def call_api(input_json: Dict[str, Any]) -> Dict[str, Any]:
-    response = requests.post("https://www.coursera.org/api/rest/v1/search", json=input_json)
+    response = requests.post("https://www.coursera.org/api/rest/v1/search", json=input_json, timeout=60)
     if response.status_code == 200:
         return response.json()
     else:

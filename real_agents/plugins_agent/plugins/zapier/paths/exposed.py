@@ -9,7 +9,7 @@ def call_api(input_json: Dict[str, Any], api_key) -> Dict[str, Any]:
         "X-API-Key": api_key,
     }
     url = "https://nla.zapier.com/api/v1/exposed/"
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, timeout=60)
 
     if response.status_code == 200:
         return response.json()
