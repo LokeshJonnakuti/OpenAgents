@@ -24,6 +24,7 @@ from real_agents.data_agent import DataSummaryExecutor
 from real_agents.adapters.callbacks.agent_streaming import AgentStreamingStdOutCallbackHandler
 from real_agents.adapters.agent_helpers import Agent, AgentExecutor
 from real_agents.adapters.llm import BaseLanguageModel
+from security import safe_requests
 
 
 def check_url_exist(text: str) -> bool:
@@ -46,7 +47,7 @@ def extract_links(text: str) -> list[Any]:
 # function to extract image links from a webpage
 def extract_title_and_image_links(url: str) -> (tuple[Literal[''], list] | tuple[Any, list]):
     try:
-        res = requests.get(url, timeout=3)
+        res = safe_requests.get(url, timeout=3)
         if res.status_code != 200:
             return "", []
         soup = BeautifulSoup(res.text, "html.parser")

@@ -26,6 +26,7 @@ from real_agents.adapters.memory import ConversationReActBufferMemory
 from real_agents.plugins_agent.plugins.utils import load_all_plugins_elements
 from real_agents.plugins_agent.plugins.tool_selector import ToolSelector
 from real_agents.plugins_agent import PluginExecutor
+from security import safe_requests
 
 # The plugins list
 global plugins
@@ -43,7 +44,7 @@ for plugin_type, plugin_info in load_all_plugins_elements().items():
     @retry(stop_max_attempt_number=10,
            wait_fixed=2000)  # Retry 3 times with a 2-second delay between retries
     def make_request(_image_url) -> Response:
-        response = requests.get(_image_url)  # Replace with your actual request code
+        response = safe_requests.get(_image_url)  # Replace with your actual request code
         response.raise_for_status()  # Raise an exception for unsuccessful response status codes
         return response
 

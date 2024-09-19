@@ -1,6 +1,6 @@
 """Jobsearch API jobs path."""
 from typing import Any, Dict
-import requests
+from security import safe_requests
 
 
 def call_api(input_json: Dict[str, Any]) -> Dict[str, Any]:
@@ -8,7 +8,7 @@ def call_api(input_json: Dict[str, Any]) -> Dict[str, Any]:
     headers = {
         "Content-Type": "application/json"
     }
-    response = requests.get(url, headers=headers, params=input_json)
+    response = safe_requests.get(url, headers=headers, params=input_json)
 
     if response.status_code == 200:
         return response.json()

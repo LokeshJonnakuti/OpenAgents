@@ -1,11 +1,10 @@
 """Search news from Biztoc API."""
 from typing import Any, Dict
-
-import requests
+from security import safe_requests
 
 
 def call_api(input_json: Dict[str, Any]) -> Dict[str, Any]:
-    response = requests.get("https://ai.biztoc.com/ai/news", params=input_json)
+    response = safe_requests.get("https://ai.biztoc.com/ai/news", params=input_json)
 
     if response.status_code == 200:
         return response.json()

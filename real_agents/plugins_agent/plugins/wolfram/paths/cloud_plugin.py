@@ -1,10 +1,10 @@
 """Cloud plugin for Wolfram Alpha API"""
-import requests
+from security import safe_requests
 
 
 def call_api(input_json, api_key):
     input_json["appid"] = api_key
-    response = requests.get("https://www.wolframalpha.com/api/v1/cloud-plugin", params=input_json)
+    response = safe_requests.get("https://www.wolframalpha.com/api/v1/cloud-plugin", params=input_json)
 
     if response.status_code == 200:
         return response.content.decode("utf-8")

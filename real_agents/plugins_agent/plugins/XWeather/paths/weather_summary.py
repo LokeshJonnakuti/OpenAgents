@@ -1,11 +1,11 @@
 """Weather summary path for XWeather plugin."""
 from typing import Any, Dict
-import requests
+from security import safe_requests
 
 
 def call_api(input_json: Dict[str, Any]) -> Dict[str, Any]:
     url = "https://openai-plugin.xweather.com/weather/summary/{}".format(input_json['location'])
-    response = requests.get(url)
+    response = safe_requests.get(url)
 
     if response.status_code == 200:
         return response.json()
