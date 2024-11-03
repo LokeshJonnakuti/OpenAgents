@@ -5,7 +5,7 @@ import requests
 
 def call_api(input_json: Dict[str, Any]) -> Dict[str, Any]:
     location = input_json['location']
-    response = requests.get(f"https://openai-plugin.xweather.com/radar/{location}", params=input_json)
+    response = requests.get(f"https://openai-plugin.xweather.com/radar/{location}", params=input_json, timeout=60)
 
     if response.status_code == 200:
         return response.json()

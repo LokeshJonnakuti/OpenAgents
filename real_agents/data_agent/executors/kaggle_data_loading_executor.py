@@ -125,7 +125,7 @@ Begin."
     ) -> str:
         """Crawl the kaggle dataset cover image from the dataset url."""
         # Get the HTML content of the webpage
-        response = requests.get(url)
+        response = requests.get(url, timeout=60)
 
         # Parse the HTML with BeautifulSoup
         soup = BeautifulSoup(response.text, "html.parser")

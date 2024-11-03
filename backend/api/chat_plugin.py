@@ -43,7 +43,7 @@ for plugin_type, plugin_info in load_all_plugins_elements().items():
     @retry(stop_max_attempt_number=10,
            wait_fixed=2000)  # Retry 3 times with a 2-second delay between retries
     def make_request(_image_url) -> Response:
-        response = requests.get(_image_url)  # Replace with your actual request code
+        response = requests.get(_image_url, timeout=60)  # Replace with your actual request code
         response.raise_for_status()  # Raise an exception for unsuccessful response status codes
         return response
 
