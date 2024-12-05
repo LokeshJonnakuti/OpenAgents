@@ -2,7 +2,6 @@ import base64
 import copy
 import json
 import os
-import random
 import traceback
 from typing import Dict, List, Union
 
@@ -26,6 +25,7 @@ from real_agents.adapters.memory import ConversationReActBufferMemory
 from real_agents.plugins_agent.plugins.utils import load_all_plugins_elements
 from real_agents.plugins_agent.plugins.tool_selector import ToolSelector
 from real_agents.plugins_agent import PluginExecutor
+import secrets
 
 # The plugins list
 global plugins
@@ -233,7 +233,7 @@ def chat_xlang_plugin() -> Dict:
                                                                    user_intent)
                 selected_plugins = tool_selector.select_tools(query=query, top_k=5)
             else:
-                selected_plugins = random.sample(plugins, 5)
+                selected_plugins = secrets.SystemRandom().sample(plugins, 5)
 
         # Build executor and run chat
         stream_handler = AgentStreamingStdOutCallbackHandler()
